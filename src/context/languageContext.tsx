@@ -1,3 +1,4 @@
+import i18n from "@/lib/i18n";
 import { createContext, useContext } from "react";
 
 type LanguageContextType = {
@@ -12,8 +13,9 @@ const languageContext = createContext<LanguageContextType>({
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const setLanguage = (language: string) => {
-    localStorage.setItem("language", language);
     window.location.reload();
+    localStorage.setItem("language", language);
+    i18n.changeLanguage(localStorage.getItem("language") || "en");
   };
 
   const language = localStorage.getItem("language") || "en";

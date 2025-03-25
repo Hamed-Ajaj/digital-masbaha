@@ -5,7 +5,7 @@ import { useLanguageContext } from "@/context/languageContext";
 
 const LanguageDropDown = ({ darkMode }: { darkMode: boolean }) => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const { language, setLanguage } = useLanguageContext();
+  const { setLanguage } = useLanguageContext();
   return (
     <div className="flex flex-col gap-2 relative">
       <Button

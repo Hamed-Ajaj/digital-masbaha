@@ -16,18 +16,20 @@ import { useTranslation } from "react-i18next";
 import LanguageDropDown from "./components/language-dropdown";
 
 const App = () => {
-  const [tasbih, setTasbih] = useState<number>(0);
+  const [tasbih, setTasbih] = useState<number>(
+    parseInt(localStorage.getItem("tasbih") || "0") || 0
+  );
   const [goal, setGoal] = useState<number>(33);
   const [presetGoals, setPresetGoals] = useState<number[]>([33, 34, 99, 100]);
   const [customGoal, setCustomGoal] = useState<number>(0);
   const [savedCounts, setSavedCounts] = useState<number[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
-  console.log(localStorage.getItem("language"));
   const { t } = useTranslation();
   // Add to counter
   const addTasbih = () => {
     setTasbih(tasbih + 1);
+    localStorage.setItem("tasbih", (tasbih + 1).toString());
   };
 
   const addCustomGoal = (e: FormEvent<HTMLFormElement>) => {
@@ -40,6 +42,7 @@ const App = () => {
   // Reset counter
   const resetTasbih = () => {
     setTasbih(0);
+    localStorage.setItem("tasbih", "0");
   };
 
   // Save current count
@@ -69,13 +72,16 @@ const App = () => {
         }`}
       >
         <CardHeader className="text-center border-b pb-1 md:pb-3">
-          <div className="flex justify-between items-center">
+          <div
+            className="flex justify-between items-center"
+            dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
+          >
             <CardTitle
               className={`text-xl md:text-2xl font-bold ${
                 darkMode ? "text-white" : "text-black"
               }`}
             >
-              Digital Tasbeeh
+              {t("digitalMasbaha")}
             </CardTitle>
             <div className="flex gap-2 items-center">
               <Button
@@ -130,16 +136,17 @@ const App = () => {
                   ? "text-white"
                   : "text-black"
               }`}
+              dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
             >
               {goal > 0 &&
                 `${t("target")}: ${goal} | ${Math.round(
                   (tasbih / goal) * 100
-                )}% complete`}
+                )}% ${t("complete")}`}
             </div>
 
             {tasbih === goal && tasbih !== 0 && (
               <div className="text-green-600 dark:text-green-400 text-sm mt-2 font-medium">
-                Goal reached! ✓
+                {t("goalReached")}! ✓
               </div>
             )}
           </div>
@@ -147,13 +154,16 @@ const App = () => {
           {/* Controls */}
           <div className="flex flex-col gap-4">
             {/* Goal selector */}
-            <div className="flex gap-2 items-center">
+            <div
+              className="flex gap-2 items-center"
+              dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
+            >
               <span
                 className={`w-20 text-sm ${
                   darkMode ? "text-white" : "text-black"
                 }`}
               >
-                Set goal:
+                {t("setGoal")}:
               </span>
               <Select
                 value={goal.toString()}
@@ -171,14 +181,36 @@ const App = () => {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="0">No goal</SelectItem>
+                  <SelectItem
+                    value="0"
+                    dir={
+                      localStorage.getItem("language") === "ar" ? "rtl" : "ltr"
+                    }
+                  >
+                    {t("noGoal")}
+                  </SelectItem>
                   {presetGoals.map((presetGoal) => (
-                    <SelectItem key={presetGoal} value={presetGoal.toString()}>
+                    <SelectItem
+                      key={presetGoal}
+                      value={presetGoal.toString()}
+                      dir={
+                        localStorage.getItem("language") === "ar"
+                          ? "rtl"
+                          : "ltr"
+                      }
+                    >
                       {presetGoal}
                     </SelectItem>
                   ))}
                   <form onSubmit={addCustomGoal}>
-                    <div className="flex mx-auto items-center px-2 my-2">
+                    <div
+                      className="flex mx-auto items-center px-2 my-2"
+                      dir={
+                        localStorage.getItem("language") === "ar"
+                          ? "rtl"
+                          : "ltr"
+                      }
+                    >
                       <Input
                         type="number"
                         onChange={(e) =>
@@ -201,7 +233,10 @@ const App = () => {
             </div>
 
             {/* Main buttons */}
-            <div className="grid grid-cols-3 gap-3 mb-4 mt-2">
+            <div
+              className="grid grid-cols-3 gap-3 mb-4 mt-2"
+              dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
+            >
               <Button
                 variant="outline"
                 onClick={resetTasbih}
@@ -210,7 +245,7 @@ const App = () => {
                 }`}
               >
                 <RotateCcw className="mr-2" size={18} />
-                Reset
+                {t("reset")}
               </Button>
 
               <Button
@@ -224,7 +259,7 @@ const App = () => {
                 disabled={goal > 0 && tasbih === goal}
               >
                 <CirclePlus className="mr-2" size={20} />
-                Count
+                {t("count")}
               </Button>
             </div>
 

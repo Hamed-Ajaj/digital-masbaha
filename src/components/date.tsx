@@ -41,6 +41,7 @@ const DateComponent = ({ darkMode }: { darkMode: boolean }) => {
         className={`flex justify-between items-center h-full mb-5 ${
           darkMode ? "text-white" : "text-black"
         }`}
+        dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
       >
         <div className="space-y-2">
           <Skeleton>
@@ -62,7 +63,7 @@ const DateComponent = ({ darkMode }: { darkMode: boolean }) => {
   if (!hijriDate) {
     return (
       <div
-        className={`flex justify-center items-center h-full ${
+        className={`flex justify-center items-center h-full my-2 ${
           darkMode ? "text-white" : "text-black"
         }`}
       >
@@ -72,7 +73,10 @@ const DateComponent = ({ darkMode }: { darkMode: boolean }) => {
   }
 
   return (
-    <div className="flex justify-between items-center mb-4">
+    <div
+      className="flex justify-between items-center mb-4"
+      dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
+    >
       {/* Month with date */}
       <div>
         <div
