@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Button } from "./components/ui/button";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,17 +9,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CirclePlus, RotateCcw, Save, Moon, Sun } from "lucide-react";
+import { CirclePlus, RotateCcw, Save, Moon, Sun, Plus } from "lucide-react";
+import DateComponent from "./components/date";
+import { Input } from "./components/ui/input";
+import { useTranslation } from "react-i18next";
+import LanguageDropDown from "./components/language-dropdown";
 
 const App = () => {
   const [tasbih, setTasbih] = useState<number>(0);
   const [goal, setGoal] = useState<number>(33);
+  const [presetGoals, setPresetGoals] = useState<number[]>([33, 34, 99, 100]);
+  const [customGoal, setCustomGoal] = useState<number>(0);
   const [savedCounts, setSavedCounts] = useState<number[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
+  console.log(localStorage.getItem("language"));
+  const { t } = useTranslation();
   // Add to counter
   const addTasbih = () => {
     setTasbih(tasbih + 1);
+  };
+
+  const addCustomGoal = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setGoal(customGoal);
+    setPresetGoals([...presetGoals, customGoal]);
+    setCustomGoal(0);
   };
 
   // Reset counter
@@ -42,9 +57,6 @@ const App = () => {
     setDarkMode(!darkMode);
   };
 
-  // Common preset goals for Tasbeeh
-  const presetGoals = [33, 34, 99, 100];
-
   return (
     <div
       className={`min-h-screen flex flex-col items-center justify-center p-4 ${
@@ -56,29 +68,37 @@ const App = () => {
           darkMode ? "bg-slate-800 border-slate-700" : "bg-white"
         }`}
       >
-        <CardHeader className="text-center border-b pb-4">
+        <CardHeader className="text-center border-b pb-1 md:pb-3">
           <div className="flex justify-between items-center">
             <CardTitle
-              className={`text-2xl font-bold ${
+              className={`text-xl md:text-2xl font-bold ${
                 darkMode ? "text-white" : "text-black"
               }`}
             >
               Digital Tasbeeh
             </CardTitle>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleDarkMode}
-              className={`rounded-full cursor-pointer ${
-                darkMode ? "text-white" : "text-black"
-              }`}
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </Button>
+            <div className="flex gap-2 items-center">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleDarkMode}
+                className={`rounded-full cursor-pointer ${
+                  darkMode ? "text-white" : "text-black"
+                }`}
+              >
+                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </Button>
+
+              {/* languages button */}
+              <LanguageDropDown darkMode={darkMode} />
+            </div>
           </div>
         </CardHeader>
 
-        <CardContent className="pt-6">
+        <CardContent className="pt-1">
+          {/* date display */}
+          <DateComponent darkMode={darkMode} />
+
           {/* Counter display */}
           <div
             className={`text-center mb-8 p-6 rounded-lg ${
@@ -112,7 +132,7 @@ const App = () => {
               }`}
             >
               {goal > 0 &&
-                `Target: ${goal} | ${Math.round(
+                `${t("target")}: ${goal} | ${Math.round(
                   (tasbih / goal) * 100
                 )}% complete`}
             </div>
@@ -137,6 +157,7 @@ const App = () => {
               </span>
               <Select
                 value={goal.toString()}
+                defaultValue={goal.toString()}
                 onValueChange={(value) => setGoal(parseInt(value))}
               >
                 <SelectTrigger
@@ -156,6 +177,25 @@ const App = () => {
                       {presetGoal}
                     </SelectItem>
                   ))}
+                  <form onSubmit={addCustomGoal}>
+                    <div className="flex mx-auto items-center px-2 my-2">
+                      <Input
+                        type="number"
+                        onChange={(e) =>
+                          setCustomGoal(parseInt(e.target.value))
+                        }
+                        value={customGoal}
+                        placeholder="Custom goal"
+                      />
+                      <Button
+                        variant="ghost"
+                        className="text-emerald-600"
+                        size="sm"
+                      >
+                        <Plus size={15} />
+                      </Button>
+                    </div>
+                  </form>
                 </SelectContent>
               </Select>
             </div>
