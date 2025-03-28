@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button } from "./components/ui/button";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +14,8 @@ import DateComponent from "./components/date";
 import { Input } from "./components/ui/input";
 import { useTranslation } from "react-i18next";
 import LanguageDropDown from "./components/language-dropdown";
+import { useFetchAzkar } from "./hooks/useFetchAzkar";
+import AzkarSection from "./components/azkar-section";
 
 const App = () => {
   const [tasbih, setTasbih] = useState<number>(
@@ -24,7 +26,6 @@ const App = () => {
   const [customGoal, setCustomGoal] = useState<number>(0);
   const [savedCounts, setSavedCounts] = useState<number[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
-
   const { t } = useTranslation();
   // Add to counter
   const addTasbih = () => {
@@ -101,7 +102,10 @@ const App = () => {
           </div>
         </CardHeader>
 
-        <CardContent className="pt-1">
+        <CardContent className=" flex flex-col gap-4 pt-1">
+          {/* Azkar section */}
+          <AzkarSection />
+
           {/* date display */}
           <DateComponent darkMode={darkMode} />
 

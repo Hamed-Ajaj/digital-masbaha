@@ -1,39 +1,8 @@
-import { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
-import { HijriDate } from "@/types/hijriDate";
+import { useFetchHijriDate } from "@/hooks/useFetchHijriDate";
 
 const DateComponent = ({ darkMode }: { darkMode: boolean }) => {
-  const [hijriDate, setHijriDate] = useState<HijriDate | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchHijriDate = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("https://api.aladhan.com/v1/gToH");
-      const data = await response.json();
-      setHijriDate(data.data.hijri);
-      setLoading(false);
-      return data.data;
-    } catch (error) {
-      console.error("Error fetching Hijri date:", error);
-      setLoading(false);
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    const fetchDate = async () => {
-      await fetchHijriDate();
-    };
-
-    fetchDate();
-
-    // Refresh every hour
-    const intervalId = setInterval(fetchDate, 3600000);
-
-    // Cleanup interval on unmount
-    return () => clearInterval(intervalId);
-  }, []);
+  const { loading, hijriDate, error } = useFetchHijriDate();
 
   if (loading) {
     return (
@@ -60,14 +29,14 @@ const DateComponent = ({ darkMode }: { darkMode: boolean }) => {
     );
   }
 
-  if (!hijriDate) {
+  if (error) {
     return (
       <div
         className={`flex justify-center items-center h-full my-2 ${
           darkMode ? "text-white" : "text-black"
         }`}
       >
-        Unable to fetch date
+        {error}
       </div>
     );
   }
