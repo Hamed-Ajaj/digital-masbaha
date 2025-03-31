@@ -19,7 +19,7 @@ import AzkarSection from "./components/azkar-section";
 
 const App = () => {
   const [tasbih, setTasbih] = useState<number>(
-    parseInt(localStorage.getItem("tasbih") || "0") || 0
+    parseInt(localStorage.getItem("tasbih") || "0") || 0,
   );
   const [goal, setGoal] = useState<number>(33);
   const [presetGoals, setPresetGoals] = useState<number[]>([33, 34, 99, 100]);
@@ -27,6 +27,7 @@ const App = () => {
   const [savedCounts, setSavedCounts] = useState<number[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const { t } = useTranslation();
+  
   // Add to counter
   const addTasbih = () => {
     setTasbih(tasbih + 1);
@@ -115,8 +116,8 @@ const App = () => {
               tasbih === goal
                 ? "bg-green-100 dark:bg-green-900"
                 : darkMode
-                ? "bg-slate-700"
-                : "bg-slate-100"
+                  ? "bg-slate-700"
+                  : "bg-slate-100"
             }`}
           >
             <div
@@ -125,8 +126,8 @@ const App = () => {
                   tasbih === goal
                     ? "text-green-600"
                     : darkMode
-                    ? "text-white"
-                    : "text-black"
+                      ? "text-white"
+                      : "text-black"
                 }
               `}
             >
@@ -137,14 +138,14 @@ const App = () => {
                 tasbih === goal
                   ? "text-green-600 dark:text-green-400"
                   : darkMode
-                  ? "text-white"
-                  : "text-black"
+                    ? "text-white"
+                    : "text-black"
               }`}
               dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
             >
               {goal > 0 &&
                 `${t("target")}: ${goal} | ${Math.round(
-                  (tasbih / goal) * 100
+                  (tasbih / goal) * 100,
                 )}% ${t("complete")}`}
             </div>
 
