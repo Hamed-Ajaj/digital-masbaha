@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import { Earth } from "lucide-react";
 import { useLanguageContext } from "@/context/languageContext";
 
-const LanguageDropDown = ({ darkMode }: { darkMode: boolean }) => {
+const LanguageDropDown = ({ darkMode = false }: { darkMode?: boolean }) => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const { setLanguage } = useLanguageContext();
   return (
