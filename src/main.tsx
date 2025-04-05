@@ -13,6 +13,7 @@ import MasbahaPage from "./pages/masbaha.tsx";
 import Navbar from "./components/navbar.tsx";
 import { ThemeProvider } from "./context/useThemeContext.tsx";
 import App from "./App.tsx";
+import ShareSection from "./components/share.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ createRoot(document.getElementById("root")!).render(
       <ThemeProvider>
         <Navbar />
         <App />
-        <Toaster />
+        <Toaster richColors />
       </ThemeProvider>
     </LanguageProvider>
   </BrowserRouter>

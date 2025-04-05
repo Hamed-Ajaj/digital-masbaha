@@ -19,7 +19,9 @@ const MasbahaPage = () => {
     parseInt(localStorage.getItem("tasbih") || "0") || 0
   );
   const [goal, setGoal] = useState<number>(33);
-  const [presetGoals, setPresetGoals] = useState<number[]>([33, 34, 99, 100]);
+  const [presetGoals, setPresetGoals] = useState<number[]>([
+    3, 7, 10, 33, 34, 99, 100,
+  ]);
   const [customGoal, setCustomGoal] = useState<number>(0);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -195,7 +197,8 @@ const MasbahaPage = () => {
                       {presetGoal}
                     </SelectItem>
                   ))}
-                  <form onSubmit={addCustomGoal}>
+                  {/* TODO for later */}
+                  {/* <form onSubmit={addCustomGoal}>
                     <div
                       className="flex mx-auto items-center px-2 my-2"
                       dir={
@@ -220,7 +223,7 @@ const MasbahaPage = () => {
                         <Plus size={15} />
                       </Button>
                     </div>
-                  </form>
+                  </form> */}
                 </SelectContent>
               </Select>
             </div>

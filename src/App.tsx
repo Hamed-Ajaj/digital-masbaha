@@ -3,7 +3,7 @@ import AzkarPage from "./pages/azkar";
 import MasbahaPage from "./pages/masbaha";
 const App = () => {
   return (
-    <main>
+    <main className="font-cairo">
       <Routes>
         <Route path="/" element={<AzkarPage />} />
         <Route path="/masbaha" element={<MasbahaPage />} />
