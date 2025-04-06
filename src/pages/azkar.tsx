@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Share2, Copy } from "lucide-react";
+import { Copy } from "lucide-react";
 
 import AzkarCategoriesSection from "@/components/azkar-categories";
 import AzkarLoader from "@/components/ui/azkar-loader";
@@ -30,42 +30,42 @@ const AzkarPage = () => {
     });
   };
 
-  const handleShare = async (text: string) => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "أذكار",
-          text: text,
-        });
-        toast("تمت المشاركة", {
-          description: "تم مشاركة الذكر بنجاح",
-          duration: 2000,
-        });
-      } catch (error) {
-        if (error instanceof Error && error.name !== "AbortError") {
-          toast("خطأ في المشاركة", {
-            description: "تعذرت مشاركة الذكر",
-            duration: 2000,
-          });
-        }
-      }
-    } else {
-      // Only if Web Share API is not available, show a different UI option
-      toast("خطأ في المشاركة", {
-        description: "ميزة المشاركة غير متوفرة على هذا المتصفح",
-        duration: 2000,
-        action: (
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => handleCopyText(text)}
-          >
-            نسخ النص بدلاً
-          </Button>
-        ),
-      });
-    }
-  };
+  // const handleShare = async (text: string) => {
+  //   if (navigator.share) {
+  //     try {
+  //       await navigator.share({
+  //         title: "أذكار",
+  //         text: text,
+  //       });
+  //       toast("تمت المشاركة", {
+  //         description: "تم مشاركة الذكر بنجاح",
+  //         duration: 2000,
+  //       });
+  //     } catch (error) {
+  //       if (error instanceof Error && error.name !== "AbortError") {
+  //         toast("خطأ في المشاركة", {
+  //           description: "تعذرت مشاركة الذكر",
+  //           duration: 2000,
+  //         });
+  //       }
+  //     }
+  //   } else {
+  //     // Only if Web Share API is not available, show a different UI option
+  //     toast("خطأ في المشاركة", {
+  //       description: "ميزة المشاركة غير متوفرة على هذا المتصفح",
+  //       duration: 2000,
+  //       action: (
+  //         <Button
+  //           size="sm"
+  //           variant="outline"
+  //           onClick={() => handleCopyText(text)}
+  //         >
+  //           نسخ النص بدلاً
+  //         </Button>
+  //       ),
+  //     });
+  //   }
+  // };
 
   // const speakText = (text: string, index: number) => {
   //   if (!window.speechSynthesis) {

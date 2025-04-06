@@ -1,4 +1,5 @@
-import { FormEvent, useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -8,9 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CirclePlus, RotateCcw, Plus } from "lucide-react";
+import { CirclePlus, RotateCcw } from "lucide-react";
 import DateComponent from "@/components/date";
-import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
@@ -23,11 +23,9 @@ const MasbahaPage = () => {
       ? parseInt(localStorage.getItem("goal") || "33")
       : 33
   );
-  const [presetGoals, setPresetGoals] = useState<number[]>([
-    3, 7, 10, 33, 34, 99, 100,
-  ]);
-  const [customGoal, setCustomGoal] = useState<number>(0);
-  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const presetGoals = [3, 7, 10, 33, 34, 99, 100];
+  // const [customGoal, setCustomGoal] = useState<number>(0);
+  const darkMode = false; // Use a constant instead since toggle functionality is commented out
   const { t } = useTranslation();
 
   // Add to counter
@@ -47,15 +45,15 @@ const MasbahaPage = () => {
     }
   };
 
-  const addCustomGoal = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (customGoal <= 0) {
-      return toast("You must enter a valid goal");
-    }
-    setGoal(customGoal);
-    setPresetGoals([...presetGoals, customGoal]);
-    setCustomGoal(0);
-  };
+  // const addCustomGoal = (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (customGoal <= 0) {
+  //     return toast("You must enter a valid goal");
+  //   }
+  //   setGoal(customGoal);
+  //   setPresetGoals([...presetGoals, customGoal]);
+  //   setCustomGoal(0);
+  // };
 
   // Reset counter
   const resetTasbih = () => {
