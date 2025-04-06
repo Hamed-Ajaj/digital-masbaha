@@ -18,7 +18,11 @@ const MasbahaPage = () => {
   const [tasbih, setTasbih] = useState<number>(
     parseInt(localStorage.getItem("tasbih") || "0") || 0
   );
-  const [goal, setGoal] = useState<number>(33);
+  const [goal, setGoal] = useState<number>(
+    localStorage.getItem("goal")
+      ? parseInt(localStorage.getItem("goal") || "33")
+      : 33
+  );
   const [presetGoals, setPresetGoals] = useState<number[]>([
     3, 7, 10, 33, 34, 99, 100,
   ]);
@@ -30,6 +34,17 @@ const MasbahaPage = () => {
   const addTasbih = () => {
     setTasbih(tasbih + 1);
     localStorage.setItem("tasbih", (tasbih + 1).toString());
+  };
+
+  const handleSetGoal = (value: string) => {
+    const newGoal = parseInt(value);
+    setGoal(newGoal);
+    localStorage.setItem("goal", value);
+    if (newGoal > 0) {
+      toast(`Goal set to ${newGoal}`);
+    } else {
+      toast("No goal set");
+    }
   };
 
   const addCustomGoal = (e: FormEvent<HTMLFormElement>) => {
@@ -163,7 +178,7 @@ const MasbahaPage = () => {
               <Select
                 value={goal.toString()}
                 defaultValue={goal.toString()}
-                onValueChange={(value) => setGoal(parseInt(value))}
+                onValueChange={(value) => handleSetGoal(value)}
               >
                 <SelectTrigger
                   className={`flex-1 ${
