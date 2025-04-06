@@ -182,8 +182,8 @@ const AzkarPage = () => {
                       dir="rtl"
                       variants={itemVariants}
                     >
-                      <div className="flex justify-between items-start gap-2">
-                        <h3 className="text-lg font-semibold leading-relaxed">
+                      <div className="flex flex-col md:flex-row justify-between items-start gap-2">
+                        <h3 className="text-[14px] sm:text-lg font-semibold leading-relaxed">
                           {item.content}
                         </h3>
                         <Badge
@@ -195,7 +195,7 @@ const AzkarPage = () => {
                       </div>
 
                       {item.description && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 border-r-2 border-green-500 pr-2">
+                        <p className="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 mt-2 border-r-2 border-green-500 pr-2">
                           {item.description}
                         </p>
                       )}
