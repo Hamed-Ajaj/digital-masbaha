@@ -2,8 +2,7 @@ import { useThemeContext } from "@/context/useThemeContext";
 import LanguageDropDown from "./language-dropdown";
 import { NavLink } from "react-router";
 import { Moon, Sun } from "lucide-react";
-import { useTranslation } from "react-i18next"; // Added for translations
-
+import { useTranslation } from "react-i18next";
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useThemeContext();
   const { t } = useTranslation(); // For translation support

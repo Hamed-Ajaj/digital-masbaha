@@ -7,7 +7,7 @@ import {
 } from "./ui/tooltip";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Copy, MinusSquare } from "lucide-react";
+import { Copy, MinusSquare, RotateCcw, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { zikrItem } from "@/types/azkarTypes";
@@ -22,6 +22,7 @@ const ZikrCard = ({
   const [remainingCounts, setRemainingCounts] = useState<
     Record<number, number>
   >({});
+  const [completedZikrs, setCompletedZikrs] = useState<Set<number>>(new Set());
 
   const handleCopyText = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -40,9 +41,10 @@ const ZikrCard = ({
     );
 
     setRemainingCounts(initialCounts);
+    setCompletedZikrs(new Set());
   }, [azkar, activeCategory]);
 
-  // Handle zikr click
+  // Handle zikr click with haptic feedback and improved animations
   const handleZikrClick = (index: number) => {
     setRemainingCounts((prev) => {
       // Only decrease if count is greater than 0
@@ -51,13 +53,37 @@ const ZikrCard = ({
       const newCount = prev[index] - 1;
 
       if (newCount === 0) {
+        // Add haptic feedback if available
+        if (navigator.vibrate) {
+          navigator.vibrate(100);
+        }
+
         toast.success("تم الانتهاء من الذكر", {
           duration: 1000,
+          icon: <CheckCircle className="h-4 w-4" />,
         });
+
+        // Mark this zikr as completed
+        setCompletedZikrs((prev) => new Set(prev).add(index));
       }
 
       return { ...prev, [index]: newCount };
     });
+  };
+
+  // Reset a specific zikr count
+  const handleResetZikr = (index: number, count: string) => {
+    const resetCount = parseInt(count) || 0;
+    setRemainingCounts((prev) => ({ ...prev, [index]: resetCount }));
+
+    // Remove from completed set
+    setCompletedZikrs((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(index);
+      return newSet;
+    });
+
+    toast.info("تم إعادة تعيين العداد", { duration: 1000 });
   };
 
   const containerVariants = {
@@ -80,6 +106,7 @@ const ZikrCard = ({
       },
     },
   };
+
   return (
     <TooltipProvider>
       <AnimatePresence mode="wait">
@@ -91,81 +118,126 @@ const ZikrCard = ({
           initial="hidden"
           animate="visible"
         >
-          {azkar.map((item: zikrItem, index: number) => (
-            <motion.div
-              key={index}
-              className={`bg-gray-100 cursor-pointer dark:bg-gray-800 p-4 rounded-lg shadow-md relative ${
-                remainingCounts[index] === 0
-                  ? "bg-green-200 pointer-events-none"
-                  : ""
-              }`}
-              dir="rtl"
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-              exit={{ opacity: 0, y: -20 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <div className="flex flex-col md:flex-row justify-between items-start gap-2 select-none">
-                {/* zikr  */}
-                <h3 className="text-[16px] sm:text-lg font-semibold leading-relaxed">
-                  {item.content}
-                </h3>
-                <Badge variant="outline" className="text-sm whitespace-nowrap">
-                  {/* zikr count */}
-                  {remainingCounts[index]}
-                </Badge>
-              </div>
+          {azkar.map((item: zikrItem, index: number) => {
+            const isCompleted = remainingCounts[index] === 0;
+            return (
+              <motion.div
+                key={index}
+                className={`bg-gray-100 dark:bg-gray-800 p-5 rounded-lg shadow-md relative 
+                transition-all duration-300 cursor-pointer ${
+                  isCompleted
+                    ? "bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700"
+                    : "hover:shadow-lg"
+                }`}
+                dir="rtl"
+                variants={itemVariants}
+                whileHover={{ scale: isCompleted ? 1.0 : 1.02 }}
+                whileTap={{ scale: isCompleted ? 1.0 : 0.98 }}
+                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                onClick={() => !isCompleted && handleZikrClick(index)}
+              >
+                {isCompleted && (
+                  <div className="absolute -top-2 -left-2 bg-green-500 text-white rounded-full p-1">
+                    <CheckCircle className="h-4 w-4" />
+                  </div>
+                )}
 
-              {item.description && (
-                <p className="text-[13px] sm:text-sm text-gray-600 dark:text-gray-400 mt-2 border-r-2 border-green-500 pr-2">
-                  {item.description}
-                </p>
-              )}
+                <div className="flex flex-col md:flex-row justify-between items-start gap-2 select-none">
+                  {/* zikr  */}
+                  <h3
+                    className={`text-[16px] sm:text-lg font-semibold leading-relaxed ${
+                      isCompleted ? "text-green-700 dark:text-green-300" : ""
+                    }`}
+                  >
+                    {item.content}
+                  </h3>
+                  <Badge
+                    variant={isCompleted ? "success" : "default"}
+                    className={`text-sm whitespace-nowrap transform transition-all duration-300 ${
+                      isCompleted ? "bg-green-500 text-white" : ""
+                    }`}
+                  >
+                    {/* zikr count */}
+                    {remainingCounts[index]}
+                  </Badge>
+                </div>
 
-              {/* copy button */}
-              <div className="flex justify-start gap-2 mt-4 rtl:flex-row-reverse">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 cursor-pointer"
-                      onClick={() => handleCopyText(item.content)}
-                    >
-                      <Copy className="h-4 w-4" />
-                      <span className="sr-only">نسخ</span>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>نسخ النص</p>
-                  </TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 cursor-pointer"
-                      onClick={() => handleZikrClick(index)}
-                    >
-                      <MinusSquare className="h-4 w-4" />
-                      {/* Remaining count */}
-                      <span className="sr-only">العد</span>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>
-                      {remainingCounts[index] === 0
-                        ? "تم الانتهاء من الذكر"
-                        : "العد التنازلي"}
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-            </motion.div>
-          ))}
+                {item.description && (
+                  <p className="text-[13px] sm:text-sm text-gray-600 dark:text-gray-400 mt-2 border-r-2 border-green-500 pr-2 select-none">
+                    {item.description}
+                  </p>
+                )}
+
+                {/* action buttons */}
+                <div className="flex justify-start gap-2 mt-4 rtl:flex-row-reverse">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCopyText(item.content);
+                        }}
+                      >
+                        <Copy className="h-4 w-4" />
+                        <span className="sr-only">نسخ</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>نسخ النص</p>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  {isCompleted ? (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0 text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleResetZikr(index, item.count);
+                          }}
+                        >
+                          <RotateCcw className="h-4 w-4" />
+                          <span className="sr-only">إعادة تعيين</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>إعادة تعيين العداد</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0 cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleZikrClick(index);
+                          }}
+                        >
+                          <MinusSquare className="h-4 w-4" />
+                          <span className="sr-only">العد</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>العد التنازلي</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </AnimatePresence>
     </TooltipProvider>
