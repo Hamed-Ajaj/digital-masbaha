@@ -10,6 +10,8 @@ import { Button } from "./button";
 import { CirclePlus, RotateCcw } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { useThemeContext } from "@/context/useThemeContext";
+import { presetGoals } from "@/constants/azkar";
 
 const ZikrControlers = ({
   goal,
@@ -22,9 +24,8 @@ const ZikrControlers = ({
   setTasbih: (value: number) => void;
   setGoal: (value: number) => void;
 }) => {
-  const presetGoals = [3, 7, 10, 33, 34, 99, 100];
   const { t } = useTranslation();
-  const darkMode = false; // Use a constant instead since toggle functionality is commented out
+  const { darkMode } = useThemeContext(); // Use a constant instead since toggle functionality is commented out
 
   const addTasbih = () => {
     setTasbih(tasbih + 1);

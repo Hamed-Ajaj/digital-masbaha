@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Earth } from "lucide-react";
 import { useLanguageContext } from "@/context/languageContext";
+import { useThemeContext } from "@/context/useThemeContext";
 
-const LanguageDropDown = ({ darkMode = false }: { darkMode?: boolean }) => {
+const LanguageDropDown = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const { darkMode } = useThemeContext();
   const { setLanguage } = useLanguageContext();
   return (
     <div className="flex flex-col gap-2 relative">

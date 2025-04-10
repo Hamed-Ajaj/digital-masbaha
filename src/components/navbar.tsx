@@ -3,6 +3,7 @@ import LanguageDropDown from "./language-dropdown";
 import { NavLink } from "react-router";
 import { Moon, Sun } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Button } from "./ui/button";
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useThemeContext();
   const { t } = useTranslation(); // For translation support
@@ -66,19 +67,23 @@ const Navbar = () => {
             <LanguageDropDown />
           </li>
           <li>
-            <button
+            <Button
               onClick={toggleDarkMode}
-              className="p-2 rounded-full hover:bg-opacity-10 hover:bg-slate-500 transition-colors"
+              variant={"ghost"}
+              size="icon"
+              className={`rounded-full cursor-pointer ${
+                darkMode ? "text-white" : "text-black"
+              }`}
               aria-label={
                 darkMode ? "Switch to light mode" : "Switch to dark mode"
               }
             >
               {darkMode ? (
-                <Sun className="text-yellow-300" size={20} />
+                <Sun size={18} />
               ) : (
                 <Moon className="text-slate-700" size={20} />
               )}
-            </button>
+            </Button>
           </li>
         </ul>
       </div>

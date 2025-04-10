@@ -15,8 +15,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const toggleDarkMode = () => {
     setDarkMode((prev) => !prev);
     if (darkMode) {
+      setDarkMode(false);
       localStorage.setItem("theme", "light");
     } else {
+      setDarkMode(true);
       localStorage.setItem("theme", "dark");
     }
   };
