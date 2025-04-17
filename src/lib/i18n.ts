@@ -21,6 +21,9 @@ const resources = {
       customGoal: "Custom Goal",
       noGoal: "No Goal",
       goalReached: "Goal Reached",
+      masbaha: "Masbaha",
+      azkar: "Azkar",
+      digitalTasbeeh: "Digital Tasbeeh",
     },
   },
   ar: {
@@ -39,6 +42,9 @@ const resources = {
       customGoal: "الهدف المخصص",
       noGoal: "لا يوجد هدف",
       goalReached: "تم الوصول إلى الهدف",
+      masbaha: "مسبحة",
+      azkar: "أذكار",
+      digitalTasbeeh: "تسبيح رقمي",
     },
   },
 };
@@ -48,7 +54,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: "en",
+    fallbackLng: "ar",
     detection: {
       order: ["localStorage", "navigator"],
       caches: ["localStorage"],

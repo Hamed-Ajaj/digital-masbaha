@@ -2,8 +2,9 @@ import { Skeleton } from "./ui/skeleton";
 import { useFetchHijriDate } from "@/hooks/useFetchHijriDate";
 
 const DateComponent = ({ darkMode }: { darkMode: boolean }) => {
-  const { loading, hijriDate, error } = useFetchHijriDate();
+  const { isLoading: loading, data, isError: error } = useFetchHijriDate();
 
+  const hijriDate = data?.hijri;
   if (loading) {
     return (
       <div
