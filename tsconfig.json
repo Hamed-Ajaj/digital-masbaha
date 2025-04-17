@@ -8,14 +8,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "skipLibCheck": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "noEmit": true,
-    "noImplicitThis": true,
-    "allowJs": true,
-    "checkJs": false,
-    "jsx": "preserve"
+    }
   }
 }
