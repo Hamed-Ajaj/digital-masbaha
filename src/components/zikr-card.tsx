@@ -24,6 +24,7 @@ const ZikrCard = ({
     Record<number, number>
   >({});
   const { darkMode } = useThemeContext();
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const handleCopyText = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -43,7 +44,12 @@ const ZikrCard = ({
     );
 
     setRemainingCounts(initialCounts);
-  }, [azkar, activeCategory]);
+
+    // Skip animation on first render, only animate on subsequent data changes
+    if (isFirstRender) {
+      setIsFirstRender(false);
+    }
+  }, [azkar, activeCategory, isFirstRender]);
 
   // Handle zikr click with haptic feedback and improved animations
   const handleZikrClick = (index: number) => {
@@ -81,18 +87,26 @@ const ZikrCard = ({
     });
   };
 
+  // Enhanced animation configurations for motion/react
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.08,
+        duration: 0.4,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: {
       opacity: 1,
       y: 0,
@@ -100,30 +114,38 @@ const ZikrCard = ({
         duration: 0.3,
       },
     },
+    exit: {
+      opacity: 0,
+      y: -10,
+      transition: {
+        duration: 0.2,
+      },
+    },
   };
 
   return (
     <TooltipProvider>
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="popLayout">
         <motion.div
-          key={activeCategory}
           className="flex flex-col gap-4"
           dir="rtl"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
+          exit="exit"
+          key={activeCategory}
         >
           {azkar.map((item: zikrItem, index: number) => {
             const isCompleted = remainingCounts[index] === 0;
             return (
               <motion.div
-                key={index}
+                key={`${activeCategory}-${index}`}
                 className={`${
                   darkMode
                     ? "dark:bg-gray-800/90 dark:hover:bg-gray-800"
                     : "bg-gray-100 hover:bg-gray-50"
                 } p-5 rounded-lg shadow-md relative 
-                transition-all duration-300 cursor-pointer ${
+                transition-colors duration-300 cursor-pointer ${
                   isCompleted
                     ? darkMode
                       ? "dark:bg-green-900/20 dark:border dark:border-green-700/70"
@@ -132,12 +154,15 @@ const ZikrCard = ({
                 }`}
                 dir="rtl"
                 variants={itemVariants}
-                whileHover={{ scale: isCompleted ? 1.0 : 1.02 }}
-                whileTap={{ scale: isCompleted ? 1.0 : 0.98 }}
+                whileHover={{
+                  scale: 1.02,
+                  transition: { duration: 0.2 },
+                }}
+                whileTap={{
+                  scale: 0.98,
+                  transition: { duration: 0.2 },
+                }}
                 transition={{ duration: 0.2 }}
-                exit={{ opacity: 0, y: -20 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
                 onClick={() => !isCompleted && handleZikrClick(index)}
               >
                 {isCompleted && (
@@ -213,9 +238,7 @@ const ZikrCard = ({
                         <span className="sr-only">نسخ</span>
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent
-                      className={darkMode ? "bg-gray-800 text-gray-100" : ""}
-                    >
+                    <TooltipContent>
                       <p>نسخ النص</p>
                     </TooltipContent>
                   </Tooltip>
@@ -240,9 +263,7 @@ const ZikrCard = ({
                           <span className="sr-only">إعادة تعيين</span>
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent
-                        className={darkMode ? "bg-gray-800 text-gray-100" : ""}
-                      >
+                      <TooltipContent>
                         <p>إعادة تعيين العداد</p>
                       </TooltipContent>
                     </Tooltip>
@@ -266,9 +287,7 @@ const ZikrCard = ({
                           <span className="sr-only">العد</span>
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent
-                        className={darkMode ? "bg-gray-800 text-gray-100" : ""}
-                      >
+                      <TooltipContent>
                         <p>العد التنازلي</p>
                       </TooltipContent>
                     </Tooltip>

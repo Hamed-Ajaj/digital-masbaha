@@ -16,21 +16,32 @@ const Navbar = () => {
           : "bg-white border-slate-200 text-slate-900"
       }`}
     >
-      <div className="max-w-4xl mx-auto flex items-center justify-between w-full">
-        <div className="text-lg font-bold">
-          <NavLink to="/" className="hover:opacity-80 transition-opacity">
+      <div
+        className="max-w-4xl mx-auto flex items-center justify-between w-full"
+        dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
+      >
+        <div className="sm:text-lg font-bold">
+          <NavLink
+            to="/"
+            className="hover:opacity-80 transition-opacity"
+            dir="rtl"
+          >
             <img
               src="/digital-tasbeeh.webp"
               alt="Logo"
-              className="h-8 w-8 rounded-2xl inline-block mr-2"
+              className="h-8 w-8 rounded-2xl inline-block ml-2"
             />
-            <span className={darkMode ? "text-white" : "text-slate-900"}>
-              {t("digitalTasbeeh") || "Digital Tasbeeh"}
+            <span
+              className={`${
+                darkMode ? "text-white" : "text-slate-900"
+              } text-[14px] sm:text-[16px] hidden sm:inline-block`}
+            >
+              المسبحة الرقمية
             </span>
           </NavLink>
         </div>
 
-        <ul className="flex gap-6 items-center">
+        <ul className="flex gap-3 sm:gap-6 items-center">
           <li>
             <NavLink
               to="/"
@@ -44,7 +55,7 @@ const Navbar = () => {
                 }`
               }
             >
-              {t("azkar") || "Azkar"}
+              الأذكار{" "}
             </NavLink>
           </li>
           <li>
@@ -63,9 +74,9 @@ const Navbar = () => {
               {t("masbaha") || "Masbaha"}
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <LanguageDropDown />
-          </li>
+          </li> */}
           <li>
             <Button
               onClick={toggleDarkMode}

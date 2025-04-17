@@ -9,7 +9,11 @@ import { useThemeContext } from "@/context/useThemeContext";
 
 const AzkarPage = () => {
   const [activeCategory, setActiveCategory] = useState<string>("morning");
-  const { azkar, loading, error } = useFetchAzkar(activeCategory);
+  const {
+    data: azkar,
+    isLoading: loading,
+    isError: error,
+  } = useFetchAzkar(activeCategory);
   const { darkMode } = useThemeContext();
 
   return (
