@@ -23,15 +23,19 @@ const LanguageDropDown = () => {
 
       {/* dropdown */}
       <div
-        className={`absolute -right-5 top-2 mt-8 w-20 bg-white border rounded-lg shadow-lg ${
-          dropdownOpen ? "block" : "hidden"
-        }`}
+        className={`absolute -right-5 top-2 mt-8 w-20 ${
+          darkMode
+            ? "bg-slate-800 border-slate-700 text-white"
+            : "bg-white border text-black"
+        } rounded-lg shadow-lg ${dropdownOpen ? "block" : "hidden"}`}
       >
         <div className="flex w-full justify-center items-center flex-col gap-2 p-2">
           <Button
             variant="ghost"
             size="icon"
-            className="w-full cursor-pointer"
+            className={`w-full cursor-pointer ${
+              darkMode ? "hover:bg-slate-700 text-white" : "hover:bg-slate-100"
+            }`}
             onClick={() => setLanguage("ar")}
           >
             <p>العربية</p>
@@ -39,7 +43,9 @@ const LanguageDropDown = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="w-full cursor-pointer"
+            className={`w-full cursor-pointer ${
+              darkMode ? "hover:bg-slate-700 text-white" : "hover:bg-slate-100"
+            }`}
             onClick={() => setLanguage("en")}
           >
             <p>English</p>

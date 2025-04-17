@@ -11,6 +11,7 @@ import { Copy, MinusSquare, RotateCcw, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { zikrItem } from "@/types/azkarTypes";
+import { useThemeContext } from "@/context/useThemeContext";
 
 const ZikrCard = ({
   azkar,
@@ -22,13 +23,14 @@ const ZikrCard = ({
   const [remainingCounts, setRemainingCounts] = useState<
     Record<number, number>
   >({});
-  const [completedZikrs, setCompletedZikrs] = useState<Set<number>>(new Set());
+  const { darkMode } = useThemeContext();
 
   const handleCopyText = (text: string) => {
     navigator.clipboard.writeText(text);
     toast.success("تم النسخ", {
       description: "تم نسخ الذكر إلى الحافظة",
       duration: 2000,
+      className: darkMode ? "dark-toast" : "",
     });
   };
 
@@ -41,7 +43,6 @@ const ZikrCard = ({
     );
 
     setRemainingCounts(initialCounts);
-    setCompletedZikrs(new Set());
   }, [azkar, activeCategory]);
 
   // Handle zikr click with haptic feedback and improved animations
@@ -61,10 +62,8 @@ const ZikrCard = ({
         toast.success("تم الانتهاء من الذكر", {
           duration: 1000,
           icon: <CheckCircle className="h-4 w-4" />,
+          className: darkMode ? "dark-toast" : "",
         });
-
-        // Mark this zikr as completed
-        setCompletedZikrs((prev) => new Set(prev).add(index));
       }
 
       return { ...prev, [index]: newCount };
@@ -76,14 +75,10 @@ const ZikrCard = ({
     const resetCount = parseInt(count) || 0;
     setRemainingCounts((prev) => ({ ...prev, [index]: resetCount }));
 
-    // Remove from completed set
-    setCompletedZikrs((prev) => {
-      const newSet = new Set(prev);
-      newSet.delete(index);
-      return newSet;
+    toast.info("تم إعادة تعيين العداد", {
+      duration: 1000,
+      className: darkMode ? "dark-toast" : "",
     });
-
-    toast.info("تم إعادة تعيين العداد", { duration: 1000 });
   };
 
   const containerVariants = {
@@ -123,10 +118,16 @@ const ZikrCard = ({
             return (
               <motion.div
                 key={index}
-                className={`bg-gray-100 dark:bg-gray-800 p-5 rounded-lg shadow-md relative 
+                className={`${
+                  darkMode
+                    ? "dark:bg-gray-800/90 dark:hover:bg-gray-800"
+                    : "bg-gray-100 hover:bg-gray-50"
+                } p-5 rounded-lg shadow-md relative 
                 transition-all duration-300 cursor-pointer ${
                   isCompleted
-                    ? "bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700"
+                    ? darkMode
+                      ? "dark:bg-green-900/20 dark:border dark:border-green-700/70"
+                      : "bg-green-100 border border-green-300"
                     : "hover:shadow-lg"
                 }`}
                 dir="rtl"
@@ -140,7 +141,11 @@ const ZikrCard = ({
                 onClick={() => !isCompleted && handleZikrClick(index)}
               >
                 {isCompleted && (
-                  <div className="absolute -top-2 -left-2 bg-green-500 text-white rounded-full p-1">
+                  <div
+                    className={`absolute -top-2 -left-2 ${
+                      darkMode ? "bg-green-600" : "bg-green-500"
+                    } text-white rounded-full p-1`}
+                  >
                     <CheckCircle className="h-4 w-4" />
                   </div>
                 )}
@@ -149,7 +154,13 @@ const ZikrCard = ({
                   {/* zikr  */}
                   <h3
                     className={`text-[16px] sm:text-lg font-semibold leading-relaxed ${
-                      isCompleted ? "text-green-700 dark:text-green-300" : ""
+                      isCompleted
+                        ? darkMode
+                          ? "text-green-400"
+                          : "text-green-700"
+                        : darkMode
+                        ? "text-gray-100"
+                        : "text-gray-800"
                     }`}
                   >
                     {item.content}
@@ -157,7 +168,13 @@ const ZikrCard = ({
                   <Badge
                     variant={isCompleted ? "success" : "default"}
                     className={`text-sm whitespace-nowrap transform transition-all duration-300 ${
-                      isCompleted ? "bg-green-500 text-white" : ""
+                      isCompleted
+                        ? darkMode
+                          ? "bg-green-600 text-white"
+                          : "bg-green-500 text-white"
+                        : darkMode
+                        ? "bg-gray-700 text-gray-200"
+                        : ""
                     }`}
                   >
                     {/* zikr count */}
@@ -166,7 +183,11 @@ const ZikrCard = ({
                 </div>
 
                 {item.description && (
-                  <p className="text-[13px] sm:text-sm text-gray-600 dark:text-gray-400 mt-2 border-r-2 border-green-500 pr-2 select-none">
+                  <p
+                    className={`text-[13px] sm:text-sm mt-2 border-r-2 border-green-500 pr-2 select-none ${
+                      darkMode ? "text-gray-300" : "text-gray-600"
+                    }`}
+                  >
                     {item.description}
                   </p>
                 )}
@@ -178,7 +199,11 @@ const ZikrCard = ({
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-8 w-8 p-0 cursor-pointer"
+                        className={`h-8 w-8 p-0 cursor-pointer ${
+                          darkMode
+                            ? "text-gray-300 hover:text-white hover:bg-gray-700"
+                            : ""
+                        }`}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleCopyText(item.content);
@@ -188,7 +213,9 @@ const ZikrCard = ({
                         <span className="sr-only">نسخ</span>
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>
+                    <TooltipContent
+                      className={darkMode ? "bg-gray-800 text-gray-100" : ""}
+                    >
                       <p>نسخ النص</p>
                     </TooltipContent>
                   </Tooltip>
@@ -199,7 +226,11 @@ const ZikrCard = ({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 cursor-pointer"
+                          className={`h-8 w-8 p-0 cursor-pointer ${
+                            darkMode
+                              ? "text-yellow-400 hover:text-yellow-300 hover:bg-gray-700"
+                              : "text-yellow-600 hover:text-yellow-700"
+                          }`}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleResetZikr(index, item.count);
@@ -209,7 +240,9 @@ const ZikrCard = ({
                           <span className="sr-only">إعادة تعيين</span>
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>
+                      <TooltipContent
+                        className={darkMode ? "bg-gray-800 text-gray-100" : ""}
+                      >
                         <p>إعادة تعيين العداد</p>
                       </TooltipContent>
                     </Tooltip>
@@ -219,7 +252,11 @@ const ZikrCard = ({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 cursor-pointer"
+                          className={`h-8 w-8 p-0 cursor-pointer ${
+                            darkMode
+                              ? "text-gray-300 hover:text-white hover:bg-gray-700"
+                              : ""
+                          }`}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleZikrClick(index);
@@ -229,7 +266,9 @@ const ZikrCard = ({
                           <span className="sr-only">العد</span>
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>
+                      <TooltipContent
+                        className={darkMode ? "bg-gray-800 text-gray-100" : ""}
+                      >
                         <p>العد التنازلي</p>
                       </TooltipContent>
                     </Tooltip>

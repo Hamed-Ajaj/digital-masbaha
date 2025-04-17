@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ZikrControlers from "./ui/zikr-controlers";
+import { useThemeContext } from "@/context/useThemeContext";
 
 const ZikrCounter = () => {
   const [tasbih, setTasbih] = useState<number>(
@@ -12,7 +13,7 @@ const ZikrCounter = () => {
       : 33
   );
   const { t } = useTranslation();
-  const darkMode = false; // Use a constant instead since toggle functionality is commented out
+  const { darkMode } = useThemeContext();
 
   return (
     <section>

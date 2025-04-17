@@ -5,13 +5,19 @@ import { Card } from "@/components/ui/card";
 import { useFetchAzkar } from "@/hooks/useFetchAzkar";
 import ZikrCard from "@/components/zikr-card";
 import { useState } from "react";
+import { useThemeContext } from "@/context/useThemeContext";
 
 const AzkarPage = () => {
   const [activeCategory, setActiveCategory] = useState<string>("morning");
   const { azkar, loading, error } = useFetchAzkar(activeCategory);
+  const { darkMode } = useThemeContext();
 
   return (
-    <main className="flex min-h-screen font-amiri flex-col items-center bg-slate-50 dark:bg-slate-900 justify-between sm:p-4 md:py-14 w-full mx-auto">
+    <main
+      className={`flex min-h-screen font-amiri flex-col items-center ${
+        darkMode ? "dark bg-slate-900" : "bg-slate-50"
+      } justify-between sm:p-4 md:py-14 w-full mx-auto`}
+    >
       <Card className="shadow-lg p-3 md:p-6 max-w-3xl w-full">
         {/* Category Selection */}
         <section className="flex flex-col items-center justify-center border-b-2 border-gray-200 dark:border-gray-700 pb-4 mb-6">
