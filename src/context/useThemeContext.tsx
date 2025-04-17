@@ -1,21 +1,26 @@
 import { createContext, useContext, useState } from "react";
 
 type ThemeContextType = {
-  darkMode: string;
+  darkMode: boolean;
   toggleDarkMode: () => void;
 };
 const themeContext = createContext<ThemeContextType>({
-  darkMode: "light",
+  darkMode: false,
   toggleDarkMode: () => {},
 });
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [darkMode, setDarkMode] = useState<string>(
-    localStorage.getItem("darkMode") || "false"
-  );
+  const theme = localStorage.getItem("theme");
+
+  const [darkMode, setDarkMode] = useState<boolean>(theme === "dark");
   const toggleDarkMode = () => {
-    setDarkMode((prev) => (prev === "true" ? "false" : "true"));
-    const newTheme = darkMode === "true" ? "light" : "dark";
-    localStorage.setItem("theme", newTheme);
+    setDarkMode((prev) => !prev);
+    if (darkMode) {
+      setDarkMode(false);
+      localStorage.setItem("theme", "light");
+    } else {
+      setDarkMode(true);
+      localStorage.setItem("theme", "dark");
+    }
   };
 
   return (

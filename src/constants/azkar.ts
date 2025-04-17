@@ -56,3 +56,5 @@ export const azkarCategories = [
     imageUrl: "/azkar/azkar-tasbeeh.jpg",
   },
 ];
+
+export const presetGoals = [3, 7, 10, 33, 34, 99, 100];
