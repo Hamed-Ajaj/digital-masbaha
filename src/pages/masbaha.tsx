@@ -8,17 +8,14 @@ const MasbahaPage = () => {
   // const [customGoal, setCustomGoal] = useState<number>(0);
   const { t } = useTranslation();
   const { darkMode } = useThemeContext();
-  console.log("darkMode", darkMode);
   return (
     <div
-      className={`min-h-screen flex flex-col items-center  py-14 ${
-        darkMode ? "bg-slate-900 text-white" : "bg-slate-50 text-slate-900"
-      }`}
+      className={`min-h-screen flex flex-col items-center  py-14 ${darkMode ? "bg-slate-900 text-white" : "bg-slate-50 text-slate-900"
+        }`}
     >
       <Card
-        className={`w-full max-w-md shadow-lg ${
-          darkMode ? "bg-slate-800 border-slate-700" : "bg-white"
-        }`}
+        className={`w-full max-w-md shadow-lg ${darkMode ? "bg-slate-800 border-slate-700" : "bg-white"
+          }`}
       >
         <CardHeader className="text-center border-b pb-1 md:pb-3">
           <div
@@ -26,9 +23,8 @@ const MasbahaPage = () => {
             dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
           >
             <CardTitle
-              className={`text-xl md:text-2xl font-bold ${
-                darkMode ? "text-white" : "text-black"
-              }`}
+              className={`text-xl md:text-2xl font-bold ${darkMode ? "text-white" : "text-black"
+                }`}
             >
               {t("digitalMasbaha")}
             </CardTitle>
