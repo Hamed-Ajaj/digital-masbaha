@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "@/constants/api";
 import { zikrItem } from "@/types/azkarTypes";
 import { useQuery } from "@tanstack/react-query";
 
@@ -9,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 export const useFetchAzkar = (category: string) => {
   const fetchAzkar = async (): Promise<zikrItem[]> => {
     const response = await fetch(
-      `https://azkar-api-render.onrender.com/${category}`,
+      `${API_BASE_URL}/${category}`,
     );
 
     if (!response.ok) {
