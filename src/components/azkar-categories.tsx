@@ -8,30 +8,41 @@ const AzkarCategoriesSection = ({
   activeCategory: string;
   setActiveCategory: (categoryValue: string) => void;
 }) => {
-  const handleCategoryClick = (categoryValue: string) => {
-    setActiveCategory(categoryValue);
-  };
-
   return (
-    <section>
-      <section
-        className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mx-auto gap-2 py-4"
-        // dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
-      >
-        {/* categories */}
-        {azkarCategories.map((category) => (
-          <Button
-            key={category.id}
-            variant={
-              activeCategory === category.value ? "secondary" : "outline"
-            }
-            onClick={() => handleCategoryClick(category.value)}
-            className="cursor-pointer"
-          >
-            <p className="text-sm text-center">{category.name}</p>
-          </Button>
-        ))}
-      </section>
+    <section dir="rtl" aria-label="فئات الأذكار">
+      <div className="mb-4 flex items-end justify-between gap-4">
+        <div>
+          <p className="font-display text-xl text-foreground">ورد اليوم</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            اختر الفئة التي ترغب في قراءتها
+          </p>
+        </div>
+        <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
+          {azkarCategories.length} فئات
+        </span>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {azkarCategories.map((category) => {
+          const isActive = activeCategory === category.value;
+
+          return (
+            <Button
+              key={category.id}
+              variant="outline"
+              onClick={() => setActiveCategory(category.value)}
+              aria-pressed={isActive}
+              className={`min-w-0 cursor-pointer touch-manipulation border py-5 text-sm transition-colors ${
+                isActive
+                  ? "border-primary bg-primary text-primary-foreground shadow-none hover:bg-primary/90 hover:text-primary-foreground"
+                  : "bg-card text-muted-foreground hover:border-primary/40 hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              <span className="truncate">{category.name}</span>
+            </Button>
+          );
+        })}
+      </div>
     </section>
   );
 };

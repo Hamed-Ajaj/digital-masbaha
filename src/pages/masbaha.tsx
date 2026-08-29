@@ -1,44 +1,31 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import DateComponent from "@/components/date";
 import { useTranslation } from "react-i18next";
 import ZikrCounter from "@/components/zikr-counter";
-import { useThemeContext } from "@/context/useThemeContext";
 
 const MasbahaPage = () => {
-  // const [customGoal, setCustomGoal] = useState<number>(0);
   const { t } = useTranslation();
-  const { darkMode } = useThemeContext();
+
   return (
-    <div
-      className={`min-h-screen flex flex-col items-center  py-14 ${darkMode ? "bg-slate-900 text-white" : "bg-slate-50 text-slate-900"
-        }`}
-    >
-      <Card
-        className={`w-full max-w-md shadow-lg ${darkMode ? "bg-slate-800 border-slate-700" : "bg-white"
-          }`}
-      >
-        <CardHeader className="text-center border-b pb-1 md:pb-3">
+    <main className="flex min-h-screen flex-col items-center bg-background px-4 py-10 text-foreground sm:py-14">
+      <Card className="w-full max-w-md shadow-sm">
+        <CardHeader className="border-b border-border text-center">
           <div
-            className="flex justify-between items-center"
+            className="flex items-center justify-between"
             dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
           >
-            <CardTitle
-              className={`text-xl md:text-2xl font-bold ${darkMode ? "text-white" : "text-black"
-                }`}
-            >
+            <h1 className="font-display text-2xl text-foreground">
               {t("digitalMasbaha")}
-            </CardTitle>
+            </h1>
           </div>
         </CardHeader>
 
-        <CardContent className=" flex flex-col gap-4 pt-1">
-          {/* date display */}
-          <DateComponent darkMode={darkMode} />
-          {/* Counter display */}
+        <CardContent className="flex flex-col gap-5 pt-5">
+          <DateComponent />
           <ZikrCounter />
         </CardContent>
       </Card>
-    </div>
+    </main>
   );
 };
 

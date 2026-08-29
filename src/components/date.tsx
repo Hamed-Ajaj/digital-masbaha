@@ -1,77 +1,44 @@
 import { Skeleton } from "./ui/skeleton";
 import { useFetchHijriDate } from "@/hooks/useFetchHijriDate";
 
-const DateComponent = ({ darkMode }: { darkMode: boolean }) => {
-  const { isLoading: loading, data, isError: error } = useFetchHijriDate();
-
+const DateComponent = () => {
+  const { isLoading: loading, data, isError } = useFetchHijriDate();
   const hijriDate = data?.hijri;
+
+  const dir = localStorage.getItem("language") === "ar" ? "rtl" : "ltr";
+
   if (loading) {
     return (
-      <div
-        className={`flex justify-between items-center h-full mb-5 ${
-          darkMode ? "text-white" : "text-black"
-        }`}
-        dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
-      >
+      <div className="mb-5 flex h-full items-center justify-between" dir={dir}>
         <div className="space-y-2">
-          <Skeleton>
-            <div className="h-6 w-28"></div>
-          </Skeleton>
-          <Skeleton className="w-24">
-            <div className="h-6 max-w-24"></div>
-          </Skeleton>
+          <Skeleton className="h-6 w-28" />
+          <Skeleton className="h-4 w-20" />
         </div>
-        <div>
-          <Skeleton>
-            <div className="h-6 w-28"></div>
-          </Skeleton>
-        </div>
+        <Skeleton className="h-4 w-24" />
       </div>
     );
   }
 
-  if (error) {
-    return (
-      <div
-        className={`flex justify-center items-center h-full my-2 ${
-          darkMode ? "text-white" : "text-black"
-        }`}
-      >
-        {error}
-      </div>
-    );
+  if (isError) {
+    return null;
   }
 
   return (
     <div
-      className="flex justify-between items-center mb-4"
-      dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
+      className="mb-4 flex items-center justify-between"
+      dir={dir}
     >
-      {/* Month with date */}
       <div>
-        <div
-          className={`text-xl md:text-2xl font-bold ${
-            darkMode ? "text-white" : "text-black"
-          }`}
-        >
+        <div className="text-xl font-bold tabular-nums md:text-2xl">
           {hijriDate?.month.ar} {hijriDate?.day}
         </div>
-        <div
-          className={`text-[11px] sm:text-sm ${
-            darkMode ? "text-white" : "text-black"
-          }`}
-        >
+        <div className="text-xs text-muted-foreground sm:text-sm">
           {hijriDate?.month.en} {hijriDate?.year}
         </div>
       </div>
 
-      {/* Weekday */}
-      <div
-        className={`text-[11px] sm:text-sm ${
-          darkMode ? "text-white" : "text-black"
-        }`}
-      >
-        {hijriDate?.weekday.ar} | {hijriDate?.weekday.en}
+      <div className="text-xs text-muted-foreground sm:text-sm">
+        {hijriDate?.weekday.ar} · {hijriDate?.weekday.en}
       </div>
     </div>
   );

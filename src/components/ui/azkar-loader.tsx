@@ -3,10 +3,9 @@ import { SyncLoader } from "react-spinners";
 
 const AzkarLoader = () => {
   const { darkMode } = useThemeContext();
-  const loaderColor = darkMode ? "#ffffff" : "#000000";
   return (
-    <div className="flex items-center justify-center w-full min-h-[400px]">
-      <SyncLoader color={loaderColor} />
+    <div className="flex min-h-[320px] w-full items-center justify-center">
+      <SyncLoader color={darkMode ? "#2fb98b" : "#0e7a5c"} />
     </div>
   );
 };
