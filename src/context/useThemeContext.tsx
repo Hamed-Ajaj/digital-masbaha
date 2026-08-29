@@ -1,27 +1,28 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type ThemeContextType = {
   darkMode: boolean;
   toggleDarkMode: () => void;
 };
+
 const themeContext = createContext<ThemeContextType>({
   darkMode: false,
   toggleDarkMode: () => {},
 });
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const theme = localStorage.getItem("theme");
 
-  const [darkMode, setDarkMode] = useState<boolean>(theme === "dark");
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
-    if (darkMode) {
-      setDarkMode(false);
-      localStorage.setItem("theme", "light");
-    } else {
-      setDarkMode(true);
-      localStorage.setItem("theme", "dark");
-    }
-  };
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("dark", darkMode);
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   return (
     <themeContext.Provider value={{ darkMode, toggleDarkMode }}>
@@ -29,6 +30,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     </themeContext.Provider>
   );
 }
+
 // eslint-disable-next-line react-refresh/only-export-components
 export function useThemeContext() {
   const context = useContext(themeContext);

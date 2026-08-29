@@ -1,99 +1,63 @@
 import { useThemeContext } from "@/context/useThemeContext";
-import LanguageDropDown from "./language-dropdown";
 import { NavLink } from "react-router";
 import { Moon, Sun } from "lucide-react";
-import { useTranslation } from "react-i18next";
+
 import { Button } from "./ui/button";
+
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useThemeContext();
-  const { t } = useTranslation(); // For translation support
+
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    `text-sm sm:text-base font-medium transition-colors ${
+      isActive
+        ? "text-primary"
+        : "text-muted-foreground hover:text-foreground"
+    }`;
 
   return (
-    <nav
-      className={`flex items-center justify-between p-4 border-b-2 z-10 transition-colors duration-200 ${
-        darkMode
-          ? "bg-slate-900 border-slate-700 text-white"
-          : "bg-white border-slate-200 text-slate-900"
-      }`}
-    >
+    <nav className="sticky top-0 z-10 border-b border-border bg-background/85 backdrop-blur">
       <div
-        className="max-w-4xl mx-auto flex items-center justify-between w-full"
-        dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
+        className="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-4"
+        dir="rtl"
       >
-        <div className="sm:text-lg font-bold">
-          <NavLink
-            to="/"
-            className="hover:opacity-80 transition-opacity"
-            dir="rtl"
+        <NavLink to="/" className="order-2 flex items-center gap-2" dir="rtl">
+          <img
+            src="/digital-tasbeeh.webp"
+            alt=""
+            width={32}
+            height={32}
+            className="h-8 w-8 rounded-full ring-1 ring-border"
+          />
+          <span
+            translate="no"
+            className="font-display text-base sm:text-lg text-foreground"
           >
-            <img
-              src="/digital-tasbeeh.webp"
-              alt="Logo"
-              className="h-8 w-8 rounded-2xl inline-block ml-2"
-            />
-            <span
-              className={`${
-                darkMode ? "text-white" : "text-slate-900"
-              } text-[14px] sm:text-[16px] hidden sm:inline-block`}
-            >
-              المسبحة الرقمية
-            </span>
-          </NavLink>
-        </div>
+            المسبحة الرقمية
+          </span>
+        </NavLink>
 
-        <ul className="flex gap-3 sm:gap-6 items-center">
+        <ul className="order-1 flex items-center gap-4 sm:gap-8">
           <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `transition-colors ${
-                  isActive
-                    ? "text-green-600 font-medium underline underline-offset-4"
-                    : darkMode
-                    ? "text-white hover:text-green-400"
-                    : "text-slate-900 hover:text-green-600"
-                }`
-              }
-            >
-              الأذكار{" "}
+            <NavLink to="/" className={linkClass} end>
+              الأذكار
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/masbaha"
-              className={({ isActive }) =>
-                `transition-colors ${
-                  isActive
-                    ? "text-green-600 font-medium underline underline-offset-4"
-                    : darkMode
-                    ? "text-white hover:text-green-400"
-                    : "text-slate-900 hover:text-green-600"
-                }`
-              }
-            >
-              {t("masbaha") || "Masbaha"}
+            <NavLink to="/masbaha" className={linkClass}>
+              المسبحة
             </NavLink>
           </li>
-          {/* <li>
-            <LanguageDropDown />
-          </li> */}
           <li>
             <Button
               onClick={toggleDarkMode}
-              variant={"ghost"}
+              variant="ghost"
               size="icon"
-              className={`rounded-full cursor-pointer ${
-                darkMode ? "text-white" : "text-black"
-              }`}
+              className="rounded-full text-foreground"
               aria-label={
                 darkMode ? "Switch to light mode" : "Switch to dark mode"
               }
             >
-              {darkMode ? (
-                <Sun size={18} />
-              ) : (
-                <Moon className="text-slate-700" size={20} />
-              )}
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </Button>
           </li>
         </ul>

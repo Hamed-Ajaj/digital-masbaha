@@ -4,72 +4,79 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.75rem;
+
+  /* Light — parchment manuscript */
+  --background: #f5f2e8;
+  --foreground: #1d2a22;
+  --card: #fcfaf3;
+  --card-foreground: #1d2a22;
+  --popover: #fcfaf3;
+  --popover-foreground: #1d2a22;
+  --primary: #0e7a5c;
+  --primary-foreground: #f6f3ea;
+  --secondary: #e7e0cc;
+  --secondary-foreground: #1d2a22;
+  --muted: #ede8d8;
+  --muted-foreground: #5c675f;
+  --accent: #ece5d2;
+  --accent-foreground: #1d2a22;
+  --gold: #a87f2c;
+  --destructive: #b23a34;
+  --border: #e0d9c4;
+  --input: #e0d9c4;
+  --ring: #0e7a5c;
+
+  --chart-1: #0e7a5c;
+  --chart-2: #c1963b;
+  --chart-3: #4f6d5f;
+  --chart-4: #8a6d3b;
+  --chart-5: #2fb98b;
+  --sidebar: #f5f2e8;
+  --sidebar-foreground: #1d2a22;
+  --sidebar-primary: #0e7a5c;
+  --sidebar-primary-foreground: #f6f3ea;
+  --sidebar-accent: #e7e0cc;
+  --sidebar-accent-foreground: #1d2a22;
+  --sidebar-border: #e0d9c4;
+  --sidebar-ring: #0e7a5c;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Dark — deep night, emerald & brass glowing */
+  --background: #0a1410;
+  --foreground: #e8efe8;
+  --card: #0f1e16;
+  --card-foreground: #e8efe8;
+  --popover: #0f1e16;
+  --popover-foreground: #e8efe8;
+  --primary: #2fb98b;
+  --primary-foreground: #052018;
+  --secondary: #1b2b22;
+  --secondary-foreground: #e8efe8;
+  --muted: #1a2a21;
+  --muted-foreground: #97a69c;
+  --accent: #22342b;
+  --accent-foreground: #e8efe8;
+  --gold: #d6af60;
+  --destructive: #e05c50;
+  --border: #24352b;
+  --input: #24352b;
+  --ring: #2fb98b;
+
+  --chart-1: #2fb98b;
+  --chart-2: #d6af60;
+  --chart-3: #6f9183;
+  --chart-4: #a98c54;
+  --chart-5: #0e7a5c;
+  --sidebar: #0f1e16;
+  --sidebar-foreground: #e8efe8;
+  --sidebar-primary: #2fb98b;
+  --sidebar-primary-foreground: #052018;
+  --sidebar-accent: #1b2b22;
+  --sidebar-accent-foreground: #e8efe8;
+  --sidebar-border: #24352b;
+  --sidebar-ring: #2fb98b;
 }
 
 @theme inline {
@@ -77,6 +84,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -91,6 +99,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
@@ -108,6 +117,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Typography — Kufi for display, Naskh for sacred text, Cairo for UI */
+  --font-sans: "Cairo", "Amiri", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Reem Kufi", "Amiri", serif;
   --font-amiri: "Amiri", serif;
 }
 
@@ -115,11 +128,40 @@
   * {
     @apply border-border outline-ring/50;
   }
+
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklch, var(--primary) 22%, transparent);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: pretty;
+  }
+
+  /* Respect reduced motion globally for our own animated beads */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
-
-/* body {
-  font-family: "Amiri", serif;
-} */

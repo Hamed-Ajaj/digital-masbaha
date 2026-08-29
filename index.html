@@ -1,51 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
   <head>
-    <title>Digital Tasbeeh - Islamic Prayer Counter App</title>
-    <meta
-      name="description"
-      content="Track your dhikr and prayers with our digital tasbeeh app. Easy-to-use Islamic prayer counter for daily worship, dhikr tracking, and spiritual mindfulness."
-    />
-    <meta
-      name="keywords"
-      content="digital tasbeeh, tasbih counter, prayer counter, dhikr app, islamic app, muslim prayers"
-    />
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Digital Tasbeeh - Islamic Prayer Counter App"
-    />
-    <meta
-      property="og:description"
-      content="Track your dhikr and prayers with our digital tasbeeh app. Easy-to-use counter for daily worship."
-    />
-    <meta property="og:image" content="/tasbeeh-app-preview.png" />
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="Digital Tasbeeh - Prayer Counter" />
-    <meta
-      property="twitter:description"
-      content="Easy-to-use Islamic prayer counter for daily worship and dhikr tracking."
-    />
-    <meta name="theme-color" content="#4CAF50" />
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/digital-tasbeeh.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0e7a5c" />
 
-    <!-- cairo font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
-      rel="stylesheet"
+    <title>المسبحة الرقمية — Digital Masbaha</title>
+    <meta
+      name="description"
+      content="Counter and adhkar reader for daily dhikr — a calm, focused digital misbaha."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="المسبحة الرقمية — Digital Masbaha" />
+    <meta
+      property="og:description"
+      content="A calm, focused digital misbaha for daily dhikr and adhkar."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- ! amiri font -->
+    <!-- Apply saved theme before first paint to avoid a flash -->
+    <script>
+      try {
+        if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark");
+        }
+      } catch (e) {}
+    </script>
+
+    <!-- Cairo (UI) · Amiri (adhkar) · Reem Kufi (display) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@200..1000&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400..800&family=Reem+Kufi:wght@400..700&display=swap"
       rel="stylesheet"
     />
   </head>

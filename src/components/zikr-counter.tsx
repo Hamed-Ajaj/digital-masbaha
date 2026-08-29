@@ -1,66 +1,72 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ZikrControlers from "./ui/zikr-controlers";
-import { useThemeContext } from "@/context/useThemeContext";
 
 const ZikrCounter = () => {
-  const [tasbih, setTasbih] = useState<number>(
-    parseInt(localStorage.getItem("tasbih") || "0") || 0
+  const [tasbih, setTasbih] = useState<number>(() =>
+    parseInt(localStorage.getItem("tasbih") || "0", 10) || 0
   );
-  const [goal, setGoal] = useState<number>(
-    localStorage.getItem("goal")
-      ? parseInt(localStorage.getItem("goal") || "33")
-      : 33
-  );
+  const [goal, setGoal] = useState<number>(() => {
+    const stored = parseInt(localStorage.getItem("goal") || "33", 10);
+    return Number.isNaN(stored) ? 33 : stored;
+  });
   const { t } = useTranslation();
-  const { darkMode } = useThemeContext();
+
+  const reached = goal > 0 && tasbih >= goal;
+  const beadCount = goal > 0 ? Math.min(goal, 33) : 0;
+  const doneBeads = beadCount > 0 ? Math.floor((tasbih / goal) * beadCount) : 0;
+  const progress = goal > 0 ? Math.min(100, Math.round((tasbih / goal) * 100)) : 0;
 
   return (
     <section>
       <div
-        className={`text-center mb-8 p-6 rounded-lg ${
-          tasbih === goal
-            ? "bg-green-100 dark:bg-green-900"
-            : darkMode
-            ? "bg-slate-700"
-            : "bg-slate-100"
+        className={`mb-6 rounded-2xl border px-6 py-8 text-center transition-colors ${
+          reached ? "border-primary/40 bg-primary/10" : "bg-muted/60"
         }`}
       >
+        {/* Big number */}
         <div
-          className={`text-6xl font-bold mb-2
-                ${
-                  tasbih === goal
-                    ? "text-green-600"
-                    : darkMode
-                    ? "text-white"
-                    : "text-black"
-                }
-              `}
+          className={`mb-3 font-sans text-7xl font-extrabold tabular-nums leading-none ${
+            reached ? "text-primary" : "text-foreground"
+          }`}
+          aria-live="polite"
         >
           {tasbih}
         </div>
-        <div
-          className={`text-sm opacity-70 ${
-            tasbih === goal
-              ? "text-green-600 dark:text-green-400"
-              : darkMode
-              ? "text-white"
-              : "text-black"
-          }`}
-          dir={localStorage.getItem("language") === "ar" ? "rtl" : "ltr"}
-        >
-          {goal > 0 &&
-            `${t("target")}: ${goal} | ${Math.round(
-              (tasbih / goal) * 100
-            )}% ${t("complete")}`}
+
+        {/* Misbaha beads — the signature */}
+        {beadCount > 0 && (
+          <div
+            className="mx-auto flex max-w-[240px] flex-wrap justify-center gap-1.5"
+            aria-hidden="true"
+          >
+            {Array.from({ length: beadCount }).map((_, i) => (
+              <span
+                key={i}
+                className={`h-2 w-2 rounded-full transition-colors duration-300 ${
+                  i < doneBeads ? "bg-primary" : "bg-border"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+
+        <div className="mt-4 text-sm text-muted-foreground" dir="rtl">
+          {goal > 0
+            ? `${t("target")}: ${goal} · ${progress}%`
+            : t("noGoal")}
         </div>
 
-        {tasbih === goal && tasbih !== 0 && (
-          <div className="text-green-600 dark:text-green-400 text-sm mt-2 font-medium">
-            {t("goalReached")}! ✓
+        {reached && (
+          <div
+            className="mt-2 font-display text-sm font-semibold text-gold"
+            aria-live="polite"
+          >
+            {t("goalReached")} ✦
           </div>
         )}
       </div>
+
       <ZikrControlers
         goal={goal}
         setGoal={setGoal}
